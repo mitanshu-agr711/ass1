@@ -25,6 +25,23 @@ router.post("/addSchool", async (req, res) => {
         return res.status(400).json({ error: "Invalid 'longitude'. Must be a number between -180 and 180." });
     }
 
+ 
+    try {
+        const connection = await con.getConnection();
+        const [result] = await connection.query(
+            "INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)",
+            [name.trim(), address.trim(), lat, lon]
+        );
+        connection.release();
 
+        res.status(201).json({
+            message: "School added successfully",
+            schoolId: result.insertId
+        });
+    } catch (error) {
+        console.error("Error inserting school:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 export default router;
