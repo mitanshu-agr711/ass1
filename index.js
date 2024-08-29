@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { con } from "./db.js";
-
+import addSchoolRouter from "./controller.js"
 dotenv.config();
 
 const app = express();

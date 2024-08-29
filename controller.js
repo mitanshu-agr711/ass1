@@ -6,7 +6,6 @@ const router = express.Router();
 router.post("/addSchool", async (req, res) => {
     const { name, address, latitude, longitude } = req.body;
 
-    // Validation
     if (!name || typeof name !== "string" || name.trim() === "") {
         return res.status(400).json({ error: "Invalid or missing 'name'." });
     }
