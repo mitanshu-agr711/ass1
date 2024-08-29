@@ -43,10 +43,9 @@ router.post("/addSchool", async (req, res) => {
     }
 });
 
-// Function to calculate distance between two coordinates (Haversine formula)
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const toRadians = (degrees) => degrees * (Math.PI / 180);
-    const R = 6371; // Earth’s radius in kilometers
+    const R = 6371; 
 
     const distanceLatitude = toRadians(lat2 - lat1);
     const distanceLongitude = toRadians(lon2 - lon1);
@@ -60,7 +59,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
 router.get("/listSchools", async (req, res) => {
     const { latitude, longitude } = req.query;
-    console.log("Query parameters:", req.query); // Debugging line
+    console.log("Query parameters:", req.query); 
     const userLat = parseFloat(latitude);
     const userLon = parseFloat(longitude);
     console.log("Latitude:", userLat, "Longitude:", userLon);
@@ -71,7 +70,7 @@ router.get("/listSchools", async (req, res) => {
 
     try {
         const [school] = await con.query("SELECT id, name, address, latitude, longitude FROM school");
-        console.log("School data:", school); // Debugging line
+        console.log("School data:", school); 
 
         const sortedSchools = school
             .map(school => ({
