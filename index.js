@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { con } from "./db.js";
-import addSchoolRouter from "./controller.js"
+import schoolRouter from "./controller.js";
 dotenv.config();
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use(addSchoolRouter);
+app.use(schoolRouter);
 app.listen(process.env.PORT || 8000, () => {
     console.log(`Server is running on port ${process.env.PORT || 8000}`);
 });

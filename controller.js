@@ -28,7 +28,7 @@ router.post("/addSchool", async (req, res) => {
     try {
         const connection = await con.getConnection();
         const [result] = await connection.query(
-            "INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)",
+            "INSERT INTO school (name, address, latitude, longitude) VALUES (?, ?, ?, ?)",
             [name.trim(), address.trim(), lat, lon]
         );
         connection.release();
@@ -60,18 +60,20 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
 router.get("/listSchools", async (req, res) => {
     const { latitude, longitude } = req.query;
+    console.log("Query parameters:", req.query); // Debugging line
     const userLat = parseFloat(latitude);
     const userLon = parseFloat(longitude);
+    console.log("Latitude:", userLat, "Longitude:", userLon);
 
-    // Simple validation
     if (![userLat, userLon].every(coord => !isNaN(coord) && coord !== null)) {
         return res.status(400).json({ error: "Invalid latitude or longitude." });
     }
 
     try {
-        const [schools] = await con.query("SELECT id, name, address, latitude, longitude FROM schools");
+        const [school] = await con.query("SELECT id, name, address, latitude, longitude FROM school");
+        console.log("School data:", school); // Debugging line
 
-        const sortedSchools = schools
+        const sortedSchools = school
             .map(school => ({
                 ...school,
                 distance: calculateDistance(userLat, userLon, school.latitude, school.longitude)
@@ -84,9 +86,5 @@ router.get("/listSchools", async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
-
-
-
-
 
 export default router;
